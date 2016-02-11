@@ -15,6 +15,7 @@
     xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics"
 	xmlns:xacro="http://ros.org/wiki/xacro">
 
+    <xacro:include filename="$(find reflex_visualizer)/urdf/full_reflex_model.urdf.xacro" />
 
     <property name="J_PI" value="3.1415926535897931" />
 
@@ -101,10 +102,20 @@
             <xacro:insert_block name="link_5_link_data" />
         </xacro:jaco_link>
         <xacro:jaco_joint joint_name="${joint_5}" type="continuous" parent="${link_4}" child="${link_5}" joint_axis_xyz="${joint_5_axis_xyz}" joint_origin_xyz="${joint_5_origin_xyz}" joint_origin_rpy="${joint_5_origin_rpy}" joint_lower_limit="${joint_5_lower_limit}" joint_upper_limit="${joint_5_upper_limit}"/>
-        <xacro:jaco_link link_name="${link_hand}">
+
+<!-- MAKES THE HAND LINK    -->
+<!--         <xacro:jaco_link link_name="${link_hand}">
             <xacro:insert_block name="link_hand_link_data" />
         </xacro:jaco_link>
-        <xacro:jaco_joint joint_name="${joint_6}" type="continuous" parent="${link_5}" child="${link_hand}" joint_axis_xyz="${joint_6_axis_xyz}" joint_origin_xyz="${joint_6_origin_xyz}" joint_origin_rpy="${joint_6_origin_rpy}" joint_lower_limit="${joint_6_lower_limit}" joint_upper_limit="${joint_6_upper_limit}"/>
+ -->
+
+<!-- JOINT BETWEEN LINK 5 AND THE JACO HAND -->
+<!--         <xacro:jaco_joint joint_name="${joint_6}" type="continuous" parent="${link_5}" child="${link_hand}" joint_axis_xyz="${joint_6_axis_xyz}" joint_origin_xyz="${joint_6_origin_xyz}" joint_origin_rpy="${joint_6_origin_rpy}" joint_lower_limit="${joint_6_lower_limit}" joint_upper_limit="${joint_6_upper_limit}"/> -->
+
+<!-- JOINT BETWEEN LINK 5 AND THE REFLEX HAND -->
+        <xacro:jaco_joint joint_name="${joint_6}" type="continuous" parent="${link_5}" child="base_link" joint_axis_xyz="${joint_6_axis_xyz}" joint_origin_xyz="${joint_6_origin_xyz}" joint_origin_rpy="${joint_6_origin_rpy}" joint_lower_limit="${joint_6_lower_limit}" joint_upper_limit="${joint_6_upper_limit}"/>
+
+
 
        <joint name="${link_base}_to_api_origin" type="fixed">
          <parent link="${link_base}"/>
@@ -126,12 +137,13 @@
          -->
         </link>
 
-        <joint name="${link_hand}_to_end_effector" type="fixed">
+<!-- JOINT BETWEEN HAND AND END EFFECTOR -->
+<!--         <joint name="${link_hand}_to_end_effector" type="fixed">
           <parent link="${link_hand}"/>
           <child link="${link_end_effector}"/>
           <origin xyz="0 0 -${end_effector_offset}" rpy="0 ${J_PI} 0" />
         </joint>
-        <link name="${link_end_effector}" />
+        <link name="${link_end_effector}" /> -->
 
     </xacro:macro>
 
