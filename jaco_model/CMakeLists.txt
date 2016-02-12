@@ -3,14 +3,28 @@ project(jaco_model)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
+  message_generation
+  reflex_msgs
   roscpp
   sensor_msgs
-  urdf
+  std_msgs
   visualization_msgs
-  reflex_msgs
+  urdf
 )
 
-catkin_package()
+add_message_files(
+  FILES
+  JacoPlusReflex.msg
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+
+catkin_package(
+ CATKIN_DEPENDS std_msgs message_runtime
+)
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
@@ -29,7 +43,7 @@ install(DIRECTORY meshes
 #install(DIRECTORY config DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 ## Declare a cpp executable
-add_executable(move_arm move_arm.cpp)
+add_executable(move_arm src/move_arm.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(move_arm ${catkin_LIBRARIES})
